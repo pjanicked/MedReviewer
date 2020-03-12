@@ -3,9 +3,10 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - Med Reviewer</title>
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
 </head>
 <body>
@@ -15,7 +16,7 @@
                 <a href="index.html" id="branding">
                     <img src="~/Content/Images/logo.png" alt="" class="logo">
                     <div class="logo-copy">
-                        <h1 class="site-title">Med Reviews</h1>
+                        <h1 class="site-title">Med Reviewer</h1>
                         <small class="site-description">Review your med before you take!</small>
                     </div>
                 </a> <!-- #branding -->
@@ -42,8 +43,8 @@
         <footer class="site-footer">
             <div class="container">
 
-                <div class="colophon">Copyright 2014 Med Reviews, Designed by Themezy. All rights reserved</div>
-            </div> <!-- .container -->
+                <div class="colophon">Copyright @DateTime.Now.Year Med Reviewer, Designed by Themezy. All rights reserved</div>
+            </div>
         </footer>
     </div>
 
