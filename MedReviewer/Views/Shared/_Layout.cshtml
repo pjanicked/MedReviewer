@@ -1,0 +1,55 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <script src="~/Scripts/modernizr-2.6.2.js"></script>
+</head>
+<body>
+    <div id="site-content">
+        <header class="site-header">
+            <div class="container">
+                <a href="index.html" id="branding">
+                    <img src="~/Content/Images/logo.png" alt="" class="logo">
+                    <div class="logo-copy">
+                        <h1 class="site-title">Med Reviews</h1>
+                        <small class="site-description">Review your med before you take!</small>
+                    </div>
+                </a> <!-- #branding -->
+                <div class="main-navigation">
+                    <button type="button" class="menu-toggle"><i class="fa fa-bars"></i></button>
+                    <ul class="menu">
+                        <li class="menu-item current-menu-item"><a href="index.html">Home</a></li>
+                        <li class="menu-item"><a href="about.html">About</a></li>
+                        <li class="menu-item"><a href="review.html">Med reviews</a></li>
+                        <li class="menu-item"><a href="joinus.html">Join us</a></li>
+                        <li class="menu-item"><a href="contact.html">Contact</a></li>
+                    </ul> <!-- .menu -->
+                    <form action="#" class="search-form">
+                        <input type="text" placeholder="Search...">
+                        <button><i class="fa fa-search"></i></button>
+                    </form>
+                </div> <!-- .main-navigation -->
+                <div class="mobile-navigation"></div>
+            </div>
+        </header>
+        <main class="main-content">
+            @RenderBody()
+        </main>
+        <footer class="site-footer">
+            <div class="container">
+
+                <div class="colophon">Copyright 2014 Med Reviews, Designed by Themezy. All rights reserved</div>
+            </div> <!-- .container -->
+        </footer>
+    </div>
+
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/Theme/plugins.js"></script>
+    <script src="~/Scripts/Theme/app.js"></script>
+</body>
+</html>
