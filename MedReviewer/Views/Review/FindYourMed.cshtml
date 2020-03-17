@@ -10,31 +10,19 @@
 
             <div class="row">
                 <div class="form-group">
-                    <div class="col-md-4">
-                        <label>Medicine Name: </label> <br />
-                        <input type="text" class="form-control" name="medicinename" id="Medicinename" placeholder="Medicine Name" />
+                    <div class="col-md-9 dropdown">
+                        <label>Search Your Medicine: </label> <br />
+                        <select name="med" id="Med" style="width: 90%">
+                            <option value=""></option>
+                        </select>
                     </div>
 
-                    <div class="col-md-4">
-                        <label>Manufacturer: </label> <br />
-                        <input type="text" class="form-control" name="manufacturer" id="Manufacturer" placeholder="Manufacturer" />
-                    </div>
-
-                    <div class="col-md-4">
-                        <label>Disease Type: </label> <br />
-                        <input type="text" class="form-control" name="disease" id="Disease" placeholder="Disease" />
-                    </div>
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-md-9">
-
-                    </div>
                     <div class="col-md-3">
-                        <input type="button" class="btn btn-primary pull-right" value="Search Your Med!" />
+                        <label></label> <br />
+                        <input type="button" class="btn btn-primary" value="Find Reviews!" />
+
                     </div>
+
                 </div>
             </div>
             <br />
@@ -74,7 +62,43 @@
                         <h4 class="modal-title">Add Medicine Review</h4>
                     </div>
                     <div class="modal-body">
-                       <!--Build Add form here-->
+                        <div class="row">
+                            <div class="form-group col-md-11 dropdown">
+                                <label>Search Your Medicine: </label> <br />
+                                <select name="medinput" id="MedInput" style="width: 100%">
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-11">
+                                <label>Description & Used on:</label> <br />
+                                <textarea name="description" id="Description" class="form-control" placeholder="Description"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-11">
+                                <label>Rating:</label> <br />
+                                <div id="stars" class="starrr"></div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-11">
+                                <label>Pros & Highlights:</label> <br />
+                                <textarea name="pros" id="Pros" class="form-control" placeholder="Pros"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group col-md-11">
+                                <label>Cons:</label> <br />
+                                <textarea name="cons" id="Cons" class="form-control" placeholder="Cons"></textarea>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-primary" value="Add Your Review" />
@@ -85,18 +109,28 @@
             </div>
         </div>
     </div>
+</div>
 @section scripts {
 <style>
     div.dt-buttons {
         float: left;
-        margin-left: 130px;
+        margin-left: 60px;
     }
     .my-btn {
         margin-right: 20px;
     }
 </style>
 <script>
-    $(document).ready(function () {
+    $(document).ready(function () {  
+
+        $('#Med, #MedInput').select2({
+            theme: "classic",
+            width: 'resolve',
+            placeholder: 'Select med',
+            allowClear: true,
+            minimumInputLength: 2
+        });       
+
         var dt_table = $('#medicineTable').DataTable({            
             columns: [
                 { data: "MedicineName", },
@@ -122,6 +156,13 @@
                 },
                 {
                     text: "<i class='fa fa-pencil'></i> Edit Review",
+                    className: "btn btn-primary my-btn",
+                    init: function (api, node, config) {
+                        $(node).removeClass('dt-button');
+                    }
+                },
+                {
+                    text: "<i class='fa fa-eye'></i> See Review",
                     className: "btn btn-primary",
                     init: function (api, node, config) {
                         $(node).removeClass('dt-button');
@@ -129,6 +170,21 @@
                 }
             ]
         });
+
+        // Test ajax call to return medicine name -- need to encrypt token and url
+        //$.ajax({
+        //    url: "https://datadiscovery.nlm.nih.gov/resource/crzr-uvwg.json?$select=medicine_name,ID,splimprint",
+        //    type: "GET",
+        //    data: {
+        //        "$limit": 50000,
+        //        "$$app_token": "tOkBNrHetKQ5smz0vrSZdeZGV"
+        //    }
+        //}).done(function (data) {
+        //    var uniqueData = data.filter((v, i, a) => a.findIndex(t => (t.medicine_name === v.medicine_name)) === i)
+        //    for (var i = 0; i < uniqueData.length; i++) {
+        //        $("#Med").append("<option value='" + uniqueData[i].ID + "'>" + uniqueData[i].medicine_name + "</option>");
+        //    }
+        //    });
 
     });
 </script>
