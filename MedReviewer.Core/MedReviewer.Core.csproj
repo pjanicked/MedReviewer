@@ -45,11 +45,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DatabaseContext\DataContext.cs" />
+    <Compile Include="InterfaceRepository\IGenericRepository.cs" />
+    <Compile Include="InterfaceRepository\IReviewRepository.cs" />
+    <Compile Include="Migrations\202003191021139_InitialModel.cs" />
+    <Compile Include="Migrations\202003191021139_InitialModel.Designer.cs">
+      <DependentUpon>202003191021139_InitialModel.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Review.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Operation\ReviewOperation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\GenericRepository.cs" />
+    <Compile Include="Repository\ReviewRepository.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202003191021139_InitialModel.resx">
+      <DependentUpon>202003191021139_InitialModel.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

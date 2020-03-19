@@ -17,7 +17,7 @@ namespace MedReviewer
         public void Configuration(IAppBuilder app)
         {
             app.SetDefaultSignInAsAuthenticationType(CookieAuthenticationDefaults.AuthenticationType);
-
+            
             app.UseCookieAuthentication(new CookieAuthenticationOptions());
 
             app.UseOktaMvc(new OktaMvcOptions()

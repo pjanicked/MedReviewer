@@ -17,7 +17,7 @@ namespace MedReviewer.Controllers
                 return new HttpUnauthorizedResult();
             }
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("HomePage", "Home");
         }
 
         [HttpPost]
