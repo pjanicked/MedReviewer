@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DatabaseContext\DataContext.cs" />
+    <Compile Include="Helpers\HelperClass.cs" />
     <Compile Include="InterfaceRepository\IGenericRepository.cs" />
     <Compile Include="InterfaceRepository\IReviewRepository.cs" />
     <Compile Include="Migrations\202003191021139_InitialModel.cs" />

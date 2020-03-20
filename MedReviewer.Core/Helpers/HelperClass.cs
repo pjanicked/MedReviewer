@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace MedReviewer.Core.Helpers
+{
+    public static class HelperClass
+    {
+        public static class UserSession
+        {
+            public static string OktaUserId { get; set; }
+            public static string UserName { get; set; }
+        }
+    }
+}

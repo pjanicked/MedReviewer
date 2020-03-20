@@ -2,6 +2,7 @@
 using MedReviewer.Core.Models;
 using MedReviewer.Core.Operation;
 using MedReviewer.DTO;
+using MedReviewer.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace MedReviewer.Controllers
 {
+    [CustomActionFilter]
     public class ReviewController : Controller
     {
         private readonly ReviewOperation _reviewOperation;
@@ -39,6 +41,7 @@ namespace MedReviewer.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
 
+        //[Authorize] //--- CORS error ---//
         [HttpPost]
         [Route("/Review/AddReview")]
         public ActionResult AddReview(ReviewDTO reviewDTO)

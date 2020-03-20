@@ -12,8 +12,9 @@ namespace MedReviewer.Controllers
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
             {
+                HttpContext.Request.Headers.Add("Access-Control-Allow-Origin", "*");
                 HttpContext.GetOwinContext().Authentication.Challenge(
-                    OktaDefaults.MvcAuthenticationType);
+                    OktaDefaults.MvcAuthenticationType);                
                 return new HttpUnauthorizedResult();
             }
 

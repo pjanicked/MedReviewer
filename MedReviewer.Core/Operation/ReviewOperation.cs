@@ -1,4 +1,5 @@
-﻿using MedReviewer.Core.Models;
+﻿using MedReviewer.Core.Helpers;
+using MedReviewer.Core.Models;
 using MedReviewer.Core.Repository;
 using System;
 using System.Collections.Generic;
@@ -42,10 +43,12 @@ namespace MedReviewer.Core.Operation
             if(isAdd)
             {
                 review.ReviewCreatedDate = DateTime.Now;
+                review.ReviewCreatedBy = Convert.ToInt32(HelperClass.UserSession.OktaUserId);
             }
             else
             {
                 review.ReviewUpdatedDate = DateTime.Now;
+                review.ReviewUpdatedBy = Convert.ToInt32(HelperClass.UserSession.OktaUserId);
             }
         }
     }

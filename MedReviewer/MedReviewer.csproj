@@ -596,7 +596,9 @@
     <Content Include="Scripts\starplugin.js" />
     <Content Include="Scripts\Theme\app.js" />
     <Content Include="Scripts\Theme\plugins.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\MappingProfile.cs" />
@@ -605,6 +607,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReviewController.cs" />
     <Compile Include="DTO\ReviewDTO.cs" />
+    <Compile Include="Filters\CustomActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

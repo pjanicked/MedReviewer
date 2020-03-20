@@ -17,5 +17,14 @@ namespace MedReviewer
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             Mapper.Initialize(c => c.AddProfile<MappingProfile>());
         }
+
+        // Added to debug cors issue
+        protected void Application_BeginRequest()
+        {
+            if (Request.Headers.AllKeys.Contains("Origin") && Request.HttpMethod == "OPTIONS")
+            {
+                Response.Flush();
+            }
+        }
     }
 }

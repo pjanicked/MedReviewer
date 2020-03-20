@@ -5,23 +5,18 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using MedReviewer.Filters;
 using Okta.Sdk;
 using Okta.Sdk.Configuration;
 
 namespace MedReviewer.Controllers
 {
+    [CustomActionFilter]
     public class HomeController : Controller
     {        
-        [Authorize]
+        //[Authorize]
         public ActionResult HomePage()
         {
-            //var client = new OktaClient(new OktaClientConfiguration
-            //{
-            //    OktaDomain = "https://{{yourOktaDomain}}",
-            //    Token = "{{yourApiToken}}"
-            //});
-
-            var a = HttpContext.GetOwinContext().Authentication.User;
             return View();
         }
     }
