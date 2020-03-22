@@ -19,7 +19,11 @@ namespace MedReviewer.Core.Models
         public string UserEmail { get; set; }
 
         [Required]
-        public double OktaUserId { get; set; }
+        [Column(TypeName = "VARCHAR")]
+        public string OktaUserId { get; set; }
+
+        [Column(TypeName = "VARCHAR")]
+        public string OktaUserName { get; set; }
 
         public DateTime? UserCreatedDate { get; set; }
 

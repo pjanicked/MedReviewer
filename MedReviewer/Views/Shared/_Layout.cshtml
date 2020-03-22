@@ -42,6 +42,7 @@
             </div>
         </header>
         <main class="main-content">
+            <div class="loader"><img src="~/Content/Images/spinned.gif" style="max-width:10%" /></div>
             @RenderBody()
         </main>
         <footer class="site-footer">
@@ -54,6 +55,7 @@
 
     <script src="~/Scripts/jquery-1.10.2.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/DataTables/jquery.dataTables.min.js"></script>
     <script src="~/Scripts/DataTables/dataTables.bootstrap.min.js"></script>
     <script src="~/Scripts/DataTables/dataTables.buttons.min.js"></script>
@@ -61,6 +63,16 @@
     <script src="~/Scripts/Theme/plugins.js"></script>
     <script src="~/Scripts/Theme/app.js"></script>
     <script src="~/Scripts/starplugin.js"></script>
+    <script src="~/Scripts/functions.min.js"></script>
     @RenderSection("scripts", required: false)
 </body>
 </html>
+<script>
+    $(document)
+        .ajaxStart(function () {
+            $('.loader').show()
+        })
+        .ajaxStop(function () {
+            $('.loader').hide()
+        });
+</script>

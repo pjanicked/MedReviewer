@@ -62,43 +62,44 @@
                         <h4 class="modal-title">Add Medicine Review</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="row">
-                            <div class="form-group col-md-11 dropdown">
-                                <label>Search Your Medicine: </label> <br />
-                                <select name="medinput" id="MedInput" style="width: 100%">
-                                    <option value=""></option>
-                                </select>
+                        <form id="addReviewModalForm">
+                            <div class="row">
+                                <div class="form-group col-md-11 dropdown">
+                                    <label>Search Your Medicine: </label> <span class="validate">*</span> <br />
+                                    <select name="medinput" id="MedInput" style="width: 100%">
+                                        <option value=""></option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-11">
-                                <label>Title</label> <br />
-                                <textarea name="description" id="Description" class="form-control" placeholder="Title"></textarea>
+                            <div class="row">
+                                <div class="form-group col-md-11">
+                                    <label>Title</label> <span class="validate">*</span> <br />
+                                    <textarea name="description" id="Description" class="form-control" placeholder="Title"></textarea>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-11">
-                                <label>Rating:</label> <br />
-                                <div id="stars" class="starrr"></div>
+                            <div class="row">
+                                <div class="form-group col-md-11">
+                                    <label>Rating:</label> <br />
+                                    <div id="stars" class="starrr"></div>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-11">
-                                <label>Pros & Highlights:</label> <br />
-                                <textarea name="pros" id="Pros" class="form-control" placeholder="Pros"></textarea>
+                            <div class="row">
+                                <div class="form-group col-md-11">
+                                    <label>Pros & Highlights:</label> <span class="validate">*</span> <br />
+                                    <textarea name="pros" id="Pros" class="form-control" placeholder="Pros"></textarea>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="row">
-                            <div class="form-group col-md-11">
-                                <label>Cons:</label> <br />
-                                <textarea name="cons" id="Cons" class="form-control" placeholder="Cons"></textarea>
+                            <div class="row">
+                                <div class="form-group col-md-11">
+                                    <label>Cons:</label> <span class="validate">*</span> <br />
+                                    <textarea name="cons" id="Cons" class="form-control" placeholder="Cons"></textarea>
+                                </div>
                             </div>
-                        </div>
-
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-primary" id="btnAddReview" value="Add Your Review" />
@@ -124,6 +125,7 @@
     $(document).ready(function () {  
         var addReviewUrl = '@Url.Action("AddReview", "Review")';
         var rating = 0;
+        var userId = '@ViewBag.OktaUserID';
 
         $('#Med, #MedInput').select2({
             theme: "classic",
@@ -131,7 +133,42 @@
             placeholder: 'Select med',
             allowClear: true,
             minimumInputLength: 2
-        });       
+        });
+
+        $('#addReviewModalForm').validate({
+            ignore: [],
+            rules: {
+                medinput: {
+                    required: true,
+                },
+                description: {
+                    required: true,
+                    maxlength: 30
+                },
+                pros: {
+                    required: true,
+                    maxlength: 200
+                },
+                cons: {
+                    required: true,
+                    maxlength: 200
+                }
+            },
+            messages: {
+                description: {
+                    required: 'Please enter title',
+                    maxlength: 'More than 30 characters not allowed'
+                },
+                pros: {
+                    required: 'Please enter pros',
+                    maxlength: 'More than 200 characters not allowed'
+                },
+                cons: {
+                    required: 'Please enter cons',
+                    maxlength: 'More than 200 characters not allowed'
+                }
+            }
+        }); 
 
         var dt_table = $('#medicineTable').DataTable({            
             columns: [
@@ -153,7 +190,12 @@
                         $(node).removeClass('dt-button');
                     },
                     action: function (e, dt, node, config) {
-                        $("#addReviewModal").modal("show");
+                        if (userId != null && userId != '') {
+                            $("#addReviewModal").modal("show");
+                        }
+                        else {
+                            alert('You must be logged on to add review!');
+                        }                       
                     }
                 },
                 //{
@@ -189,32 +231,34 @@
             });
 
         $('#btnAddReview').on('click', function (e) {
-            var reviewObject = {
-                ReviewTitle : $('#Description').val(),
-                ReviewRating : rating,
-                ReviewPros : $('#Pros').val(),
-                ReviewCons : $('#Cons').val(),
-                PillboxMedicineId : $('#MedInput').val(),
-                PillboxMedicineName : $('#MedInput option:selected').text(),
-            };
+            if ($('#addReviewModalForm').valid()) {
+                var reviewObject = {
+                    ReviewTitle: $('#Description').val(),
+                    ReviewRating: rating,
+                    ReviewPros: $('#Pros').val(),
+                    ReviewCons: $('#Cons').val(),
+                    PillboxMedicineId: $('#MedInput').val(),
+                    PillboxMedicineName: $('#MedInput option:selected').text(),
+                };
 
-            if (reviewObject != null) {
-                $.ajax({
-                    url: addReviewUrl,
-                    type: "POST",
-                    data: { reviewDTO: reviewObject },
-                    success: function (response) {
-                        if (response != null) {
-                            console.log(response);
+                if (reviewObject != null) {
+                    $.ajax({
+                        url: addReviewUrl,
+                        type: "POST",
+                        data: { reviewDTO: reviewObject },
+                        success: function (response) {
+                            if (response != null) {
+                                console.log(response);
+                            }
+                            else {
+                                console.log("failed");
+                            }
+                        },
+                        error: function (e) {
+                            console.log(e);
                         }
-                        else {
-                            console.log("failed");
-                        }
-                    },
-                    error: function (e) {
-                        console.log(e);
-                    }
-                })
+                    })
+                }
             }
         });
 

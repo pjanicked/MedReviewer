@@ -12,6 +12,7 @@ namespace MedReviewer.Core.Helpers
         {
             public static string OktaUserId { get; set; }
             public static string UserName { get; set; }
+            public static string UserEmail { get; set; }
         }
     }
 }

@@ -35,10 +35,12 @@ namespace MedReviewer.Filters
             {
                 var UserId = currentUser.Claims.Where(a => a.Type == "aud").FirstOrDefault().Value;
                 var UserName = currentUser.Claims.Where(a => a.Type == "name").FirstOrDefault().Value;
+                var UserEmail = currentUser.Claims.Where(a => a.Type == "email").FirstOrDefault().Value;
 
-                filterContext.Controller.ViewBag.UserInfo = new { userId = UserId, userName = UserName };
+                filterContext.Controller.ViewBag.UserInfo = new { userId = UserId, userName = UserName, userEmail = UserEmail };
                 HelperClass.UserSession.OktaUserId = UserId;
                 HelperClass.UserSession.UserName = UserName;
+                HelperClass.UserSession.UserEmail = UserEmail;
             }
             base.OnActionExecuting(filterContext);
         }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using MedReviewer.Core.Helpers;
 using MedReviewer.Core.Models;
 using MedReviewer.Core.Operation;
 using MedReviewer.DTO;
@@ -26,6 +27,7 @@ namespace MedReviewer.Controllers
         [Route("/Review/FindYourMed")]
         public ActionResult FindYourMed()
         {
+            ViewBag.OktaUserID = HelperClass.UserSession.OktaUserId;
             return View();
         }
 

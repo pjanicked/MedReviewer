@@ -7,7 +7,7 @@ using System.Web.Mvc;
 namespace MedReviewer.Controllers
 {
     public class AccountController : Controller
-    {
+    {        
         public ActionResult Login()
         {
             if (!HttpContext.User.Identity.IsAuthenticated)
@@ -17,8 +17,8 @@ namespace MedReviewer.Controllers
                     OktaDefaults.MvcAuthenticationType);                
                 return new HttpUnauthorizedResult();
             }
-
-            return RedirectToAction("HomePage", "Home");
+          
+            return RedirectToAction("HomePage", "Home");            
         }
 
         [HttpPost]

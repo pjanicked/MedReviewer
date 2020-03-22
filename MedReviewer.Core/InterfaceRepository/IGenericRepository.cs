@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,5 +20,7 @@ namespace MedReviewer.Core.InterfaceRepository
         TEntity Delete(TEntity entity);
 
         IList<TEntity> GetSelectList();
+
+        bool CheckDuplicate(Expression<Func<TEntity, bool>> where);
     }
 }
