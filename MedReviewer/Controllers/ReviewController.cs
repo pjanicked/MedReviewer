@@ -58,5 +58,18 @@ namespace MedReviewer.Controllers
                 throw ex;
             }
         }
+
+        public ActionResult GetReviews(int? medicineID)
+        {
+            try
+            {
+                var result = _reviewOperation.GetReviews(medicineID);
+                return Json(result, JsonRequestBehavior.AllowGet);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

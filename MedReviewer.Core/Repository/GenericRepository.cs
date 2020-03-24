@@ -148,12 +148,12 @@ namespace MedReviewer.Core.Repository
             object obj = null;
             try
             {
-                if(where != null)
+                if (where != null)
                 {
                     using (var DbContext = new DataContext())
                     {
                         obj = DbContext.Set<TEntity>().Where(where).FirstOrDefault();
-                        if(obj == null)
+                        if (obj == null)
                         {
                             _isDuplicate = false;
                         }
@@ -173,6 +173,33 @@ namespace MedReviewer.Core.Repository
                 throw;
             }
             return _isDuplicate;
+        }
+
+        /// <summary>
+        /// Get Data by Expression
+        /// </summary>
+        /// <param name="where"></param>
+        /// <returns></returns>
+        public IList<TEntity> GetData(Expression<Func<TEntity, bool>> where)
+        {
+            try
+            {
+                using (var DbContext = new DataContext())
+                {
+                    if (where != null)
+                    {
+                        return DbContext.Set<TEntity>().Where(where).ToList<TEntity>();
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
 }

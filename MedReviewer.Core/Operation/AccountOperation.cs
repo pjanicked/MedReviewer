@@ -22,30 +22,37 @@ namespace MedReviewer.Core.Operation
         {
             try
             {
-                if (!_accountRepository.CheckDuplicate(x => x.OktaUserId == HelperClass.UserSession.OktaUserId))
+                if (!string.IsNullOrEmpty(HelperClass.UserSession.OktaUserId))
                 {
-                    var user = new User
+                    if (!_accountRepository.CheckDuplicate(x => x.OktaUserId == HelperClass.UserSession.OktaUserId))
                     {
-                        OktaUserId = HelperClass.UserSession.OktaUserId,
-                        OktaUserName = HelperClass.UserSession.UserName,
-                        UserEmail = HelperClass.UserSession.UserEmail,
-                        UserCreatedDate = DateTime.Now
-                    };
+                        var user = new User
+                        {
+                            OktaUserId = HelperClass.UserSession.OktaUserId,
+                            OktaUserName = HelperClass.UserSession.UserName,
+                            UserEmail = HelperClass.UserSession.UserEmail,
+                            UserCreatedDate = DateTime.Now
+                        };
 
-                    var isUserAdded = _accountRepository.Add(user);
-                    if (isUserAdded != null)
-                    {
-                        return isUserAdded;
+                        var isUserAdded = _accountRepository.Add(user);
+                        if (isUserAdded != null)
+                        {
+                            return isUserAdded;
+                        }
+                        else
+                        {
+                            return null;
+                        }
                     }
                     else
                     {
                         return null;
+                        //throw new Exception("User already created!");
                     }
                 }
                 else
                 {
                     return null;
-                    //throw new Exception("User already created!");
                 }
             }
             catch (Exception)

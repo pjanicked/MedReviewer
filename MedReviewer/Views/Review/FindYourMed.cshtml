@@ -19,7 +19,7 @@
 
                     <div class="col-md-3">
                         <label></label> <br />
-                        <input type="button" class="btn btn-primary" value="Find Reviews!" />
+                        <input type="button" class="btn btn-primary" value="Find Reviews!" id="findReviews" />
 
                     </div>
 
@@ -32,19 +32,19 @@
                 <table id="medicineTable" class="table table-striped table-bordered" style="width:100%">
                     <thead>
                         <tr>
+                            <th class="hidden">MedicineId</th>
                             <th>Medicine Name</th>
-                            <th>Medicine Type</th>
-                            <th>Medicine Quantity</th>
-                            <th>Medicine Price</th>
+                            <th>No of Reviews</th>
+                            <th>Average Rating</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        @*<tr>
                             <td>a</td>
                             <td>b</td>
                             <td>c</td>
                             <td>d</td>
-                        </tr>
+                        </tr>*@
                     </tbody>
                 </table>
             </div>
@@ -124,6 +124,7 @@
 <script>
     $(document).ready(function () {  
         var addReviewUrl = '@Url.Action("AddReview", "Review")';
+        var GetReviewUrl = '@Url.Action("GetReviews", "Review")';
         var rating = 0;
         var userId = '@ViewBag.OktaUserID';
 
@@ -155,6 +156,9 @@
                 }
             },
             messages: {
+                medinput: {
+                    required: 'Please select medicine'
+                },
                 description: {
                     required: 'Please enter title',
                     maxlength: 'More than 30 characters not allowed'
@@ -172,10 +176,10 @@
 
         var dt_table = $('#medicineTable').DataTable({            
             columns: [
-                { data: "MedicineName", },
-                { data: "MedicineType", },
-                { data: "MedicineQuantity", },
-                { data: "MedicinePrice", },
+                { data: "PillboxMedicineId", visible: false },
+                { data: "PillboxMedicineName", },
+                { data: "noOfReviews", },
+                { data: "avgRating", },                
             ],
             scrollX: true,
             dom:
@@ -194,7 +198,8 @@
                             $("#addReviewModal").modal("show");
                         }
                         else {
-                            alert('You must be logged on to add review!');
+                            toastr.error('You must be logged on to add review!');
+                            //alert('You must be logged on to add review!');
                         }                       
                     }
                 },
@@ -207,7 +212,7 @@
                 //},
                 {
                     text: "<i class='fa fa-eye'></i> See Review",
-                    className: "btn btn-primary",
+                    className: "btn btn-primary seereviewbtn disabled",
                     init: function (api, node, config) {
                         $(node).removeClass('dt-button');
                     }
@@ -248,14 +253,16 @@
                         data: { reviewDTO: reviewObject },
                         success: function (response) {
                             if (response != null) {
-                                console.log(response);
+                                toastr.success('Review Added Successfully!');
+                                $("#addReviewModal").modal("hide");
+                                //console.log(response);
                             }
                             else {
-                                console.log("failed");
+                                toastr.error('Error in adding review!');
                             }
                         },
                         error: function (e) {
-                            console.log(e);
+                            toastr.error('Error in adding review!');
                         }
                     })
                 }
@@ -266,6 +273,37 @@
             rating = value;
         });
 
+        $('#findReviews').on('click', function (e) {
+            $.ajax({
+                url: GetReviewUrl,
+                type: "POST",
+                data: { medicineID: $('#Med').val() },
+                success: function (response) {
+                    if (response != null) {
+                        dt_table.clear().draw();
+                        dt_table.rows.add(response).draw();
+                    }
+                    else {
+                        toastr.error('Error in getting reviews!');
+                    }
+                },
+                error: function (e) {
+                    toastr.error('Error in getting reviews!');
+                }
+            })
+        });
+
+        $('#medicineTable tbody').on('click', 'tr', function (e) {
+            $('.seereviewbtn').removeClass('disabled');
+            if ($(this).hasClass('selected')) {
+                $(this).removeClass('selected');
+                $('.seereviewbtn').attr('disabled', true);
+            }
+            else {               
+                $(this).addClass('selected');
+                $('.seereviewbtn').attr('disabled', false);
+            }            
+        });
     });
 </script>
 }

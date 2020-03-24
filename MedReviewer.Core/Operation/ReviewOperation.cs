@@ -12,10 +12,12 @@ namespace MedReviewer.Core.Operation
     public class ReviewOperation
     {
         private readonly ReviewRepository _reviewRepository;
+        private readonly AccountRepository _acRepository;
 
         public ReviewOperation()
         {
             _reviewRepository = new ReviewRepository();
+            _acRepository = new AccountRepository();
         }
 
         public object AddReview(Review review)
@@ -40,15 +42,30 @@ namespace MedReviewer.Core.Operation
 
         private void fillProperty(Review review, bool isAdd)
         {
+            var myUserID = _acRepository.GetData(x => x.OktaUserId == HelperClass.UserSession.OktaUserId);
             if(isAdd)
             {
                 review.ReviewCreatedDate = DateTime.Now;
-                review.ReviewCreatedBy = Convert.ToInt32(HelperClass.UserSession.OktaUserId);
+                //review.ReviewCreatedBy = Convert.ToInt32(HelperClass.UserSession.OktaUserId);
+                review.ReviewCreatedBy = myUserID[0].UserId;
             }
             else
             {
                 review.ReviewUpdatedDate = DateTime.Now;
-                review.ReviewUpdatedBy = Convert.ToInt32(HelperClass.UserSession.OktaUserId);
+                //review.ReviewUpdatedBy = Convert.ToInt32(HelperClass.UserSession.OktaUserId);
+                review.ReviewUpdatedBy = myUserID[0].UserId;
+            }
+        }
+
+        public List<object> GetReviews(int? medicineId)
+        {
+            try
+            {
+                return _reviewRepository.GetReviews(medicineId).ToList();
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }

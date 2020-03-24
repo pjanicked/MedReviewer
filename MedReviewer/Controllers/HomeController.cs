@@ -22,7 +22,7 @@ namespace MedReviewer.Controllers
             _accountOperation = new AccountOperation();
         }
 
-        [Authorize]
+        //[Authorize]
         public ActionResult HomePage()
         {
             try

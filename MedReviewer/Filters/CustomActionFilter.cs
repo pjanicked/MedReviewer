@@ -33,7 +33,8 @@ namespace MedReviewer.Filters
             var currentUser = HttpContext.Current.GetOwinContext().Authentication.User;
             if (currentUser.Claims.ToList().Count > 0)
             {
-                var UserId = currentUser.Claims.Where(a => a.Type == "aud").FirstOrDefault().Value;
+                //var UserId = currentUser.Claims.Where(a => a.Type == "aud").FirstOrDefault().Value;
+                var UserId = currentUser.Claims.Where(a => a.Type == "sub").FirstOrDefault().Value; //sub is unique
                 var UserName = currentUser.Claims.Where(a => a.Type == "name").FirstOrDefault().Value;
                 var UserEmail = currentUser.Claims.Where(a => a.Type == "email").FirstOrDefault().Value;
 
