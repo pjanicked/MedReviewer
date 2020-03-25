@@ -33,6 +33,9 @@
     <Reference Include="EntityFramework, Version=5.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.5.0.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -58,6 +61,10 @@
     <Compile Include="Migrations\202003210804438_modifiedUserModel.Designer.cs">
       <DependentUpon>202003210804438_modifiedUserModel.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003251443476_ChangeMaxLengthOfReviewFields.cs" />
+    <Compile Include="Migrations\202003251443476_ChangeMaxLengthOfReviewFields.Designer.cs">
+      <DependentUpon>202003251443476_ChangeMaxLengthOfReviewFields.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Review.cs" />
     <Compile Include="Models\User.cs" />
@@ -78,6 +85,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003210804438_modifiedUserModel.resx">
       <DependentUpon>202003210804438_modifiedUserModel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003251443476_ChangeMaxLengthOfReviewFields.resx">
+      <DependentUpon>202003251443476_ChangeMaxLengthOfReviewFields.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

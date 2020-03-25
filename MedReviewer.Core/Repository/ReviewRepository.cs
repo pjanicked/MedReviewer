@@ -45,5 +45,37 @@ namespace MedReviewer.Core.Repository
                 throw;
             }
         }
+
+        public IList<object> GetAllReviewsByMedicineID(int medicineId)
+        {
+            try
+            {
+                using (var DbContext = new DataContext())
+                {
+                    return (from r in DbContext.Reviews
+                            join u in DbContext.Users on r.ReviewCreatedBy equals u.UserId
+                            where r.PillboxMedicineId == medicineId
+                            select new
+                            {
+                            r.ReviewId,
+                            r.ReviewTitle,
+                            r.ReviewRating,
+                            r.ReviewPros,
+                            r.ReviewCons,
+                            r.PillboxMedicineId,
+                            r.PillboxMedicineName,
+                            r.ReviewCreatedBy,
+                            CreatedByName = u.OktaUserName,
+                            r.ReviewCreatedDate,
+                            r.ReviewUpdatedBy,
+                            r.ReviewUpdatedDate
+                            }).ToList<object>();
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

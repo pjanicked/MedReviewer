@@ -68,5 +68,17 @@ namespace MedReviewer.Core.Operation
                 throw;
             }
         }
+
+        public List<object> GetAllReviewsByMedicineID(int medicineId)
+        {
+            try
+            {
+                return _reviewRepository.GetAllReviewsByMedicineID(medicineId).ToList<object>();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
     }
 }

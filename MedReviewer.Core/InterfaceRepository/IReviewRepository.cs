@@ -10,5 +10,7 @@ namespace MedReviewer.Core.InterfaceRepository
     interface IReviewRepository: IGenericRepository<Review>
     {
         IList<object> GetReviews(int? medicineId);
+
+        IList<object> GetAllReviewsByMedicineID(int medicineId);
     }
 }

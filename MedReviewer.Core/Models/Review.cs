@@ -14,18 +14,18 @@ namespace MedReviewer.Core.Models
         public int ReviewId { get; set; }
 
         [Required]
-        [MaxLength(30)]
+        [MaxLength(100)]
         [Column(TypeName = "VARCHAR")]
         public string ReviewTitle { get; set; }
 
         [Required]
         public double ReviewRating { get; set; }
 
-        [MaxLength(200)]
+        [MaxLength(500)]
         [Column(TypeName = "VARCHAR")]
         public string ReviewPros { get; set; }
 
-        [MaxLength(200)]
+        [MaxLength(500)]
         [Column(TypeName = "VARCHAR")]
         public string ReviewCons { get; set; }
             

@@ -1,0 +1,251 @@
+﻿
+@{
+    ViewBag.Title = "SeeReview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div class="page">
+        <div class="row">
+            <!--Image-->
+            <div class="col-md-6">
+                <div class="latest-movie">
+                    <a href="#"><img src="~/Content/Images/see-1.jpg" alt="Slide 1"></a>
+                </div>
+            </div>
+            <!--Image-->
+            <!--Med Details-->
+            <div class="col-md-6 seereview">
+                <div class="row">
+                    <div class="form-group">
+                        <h3 id="lblMedicineName"></h3>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Ingredients</label> <br />
+                        <textarea rows="4" cols="75" id="txtIngredients" readonly="readonly"></textarea>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Medicine Shape: </label> <br />
+                        <input type="text" readonly="readonly" id="txtShape" />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="form-group">
+                        <label>Medicine Color: </label> <br />
+                        <input type="text" readonly="readonly" id="txtColor" />
+                    </div>
+                </div>
+
+            </div>
+            <!--Med Details-->
+        </div>
+
+    <div class="row">
+            <div class="col-md-6">
+                <div>
+                    <span>Average User Rating</span> :
+                    <span class="fa fa-star star1"></span>
+                    <span class="fa fa-star star2"></span>
+                    <span class="fa fa-star star3"></span>
+                    <span class="fa fa-star star4"></span>
+                    <span class="fa fa-star star5"></span>
+                </div>
+                <div class="side">
+                    <div>5 star</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-5"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div class="rating5">150</div>
+                </div>
+
+                <div class="side">
+                    <div>4 star</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-4"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div class="rating4">100</div>
+                </div>
+
+                <div class="side">
+                    <div>3 star</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-3"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div class="rating3">30</div>
+                </div>
+
+                <div class="side">
+                    <div>2 star</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-2"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div class="rating2">20</div>
+                </div>
+
+                <div class="side">
+                    <div>1 star</div>
+                </div>
+                <div class="middle">
+                    <div class="bar-container">
+                        <div class="bar-1"></div>
+                    </div>
+                </div>
+                <div class="side right">
+                    <div class="rating1">10</div>
+                </div>
+
+            </div>
+    </div>
+    <br />
+    <hr />
+    <div id="reviewContent">
+        @*<div class="row">
+            <div class="review-block">
+                <div class="col-md-3">
+                    <img src="http://dummyimage.com/60x60/666/ffffff&text=No+Image" class="img-rounded">
+                    <div class="review-block-name"><a href="#">nktailor</a></div>
+                    <div class="review-block-date">January 29, 2016<br />1 day ago</div>
+                </div>
+                <div class="col-md-9">
+                    <span class="fa fa-star star1"></span>
+                    <span class="fa fa-star star2"></span>
+                    <span class="fa fa-star star3"></span>
+                    <span class="fa fa-star star4"></span>
+                    <span class="fa fa-star star5"></span>
+
+                    <div class="review-block-title">Title</div>
+                    <div class="review-block-description">this was nice in buy pros and cons</div>
+                </div>
+            </div>
+        </div>*@
+    </div>
+
+    </div>
+</div>
+@section scripts {
+<style>
+    input[readonly="readonly"] {
+        border: 0px;
+        background-color: transparent;
+    }
+</style>
+<script>
+    $(document).ready(function () {
+        var GetAllReviewsByMedicineIdUrl = '@Url.Action("GetAllReviewsByMedicineID","Review")';
+
+        var mainurl = window.location.pathname;
+        var medicineId = mainurl.substring(mainurl.lastIndexOf('/') + 1);
+
+        $.ajax({
+            url: "https://datadiscovery.nlm.nih.gov/resource/crzr-uvwg.json?$where=ID=%27" + medicineId + "%27",
+            type: "GET",
+            data: {
+                "$limit": 50000,
+                "$$app_token": "tOkBNrHetKQ5smz0vrSZdeZGV"
+            }
+        }).done(function (data) {
+            $('#lblMedicineName').text(data[0].medicine_name);
+            $('#txtIngredients').val(data[0].spl_inactive_ing);
+            $('#txtShape').val(data[0].splshape_text);
+            $('#txtColor').val(data[0].splcolor_text);
+            $.ajax({
+                url: GetAllReviewsByMedicineIdUrl,
+                type: 'POST',
+                data: { medicineID: medicineId },
+                success: function (res) {
+                    bindData(res);
+                },
+                error: function (e) {
+                    toastr.error('Couldnt load data!');
+                }
+            });
+        });
+
+        function bindData(reviewJson) {
+            var reviewObj = $.parseJSON(reviewJson);
+            reviewObj.map(x => x.ReviewCreatedDate = new Date(x.ReviewCreatedDate).toUTCString());
+            var onlyRatings = reviewObj.map(x => x.ReviewRating);
+            var noOfReviews = reviewObj.length;
+            var averageRating = onlyRatings.reduce((sume, el) => sume + el, 0) / onlyRatings.length;
+            var ratingCount = onlyRatings.reduce(function (p, c) {
+                if (c in p) {
+                    p[c]++;
+                } else {
+                    p[c] = 1;
+                }
+                return p;
+            }, {});
+
+            $('.rating5').html(ratingCount[5] || 0);
+            $('.rating4').html(ratingCount[4] || 0);
+            $('.rating3').html(ratingCount[3] || 0);
+            $('.rating2').html(ratingCount[2] || 0);
+            $('.rating1').html(ratingCount[1] || 0);
+
+            $('.bar-5').css("width", ratingCount[5] / noOfReviews * 100 + "%");
+            $('.bar-4').css("width", ratingCount[4] / noOfReviews * 100 + "%");
+            $('.bar-3').css("width", ratingCount[3] / noOfReviews * 100 + "%");
+            $('.bar-2').css("width", ratingCount[2] / noOfReviews * 100 + "%");
+            $('.bar-1').css("width", ratingCount[1] / noOfReviews * 100 + "%");
+
+            for (var i = 1; i <= averageRating; i++) {
+                $(".star" + i).addClass('checked');
+            }
+            var htmlString = "";
+            for (var i = 0; i < reviewObj.length; i++) {
+                 htmlString += "<div class='row'> <div class='review-block' id='reviewno" + i +"'> " +
+                   "<div class='col-md-3' >" +
+                   "<img src='http://dummyimage.com/60x60/666/ffffff&text=No+Image' class='img-rounded'> " +
+                   "<div class='review-block-name'><a href='#'> " + reviewObj[i].CreatedByName + "</a></div> " +
+                   "<div class='review-block-date'> " + reviewObj[i].ReviewCreatedDate + "</div> " +
+                   "</div> "+
+                   "<div class='col-md-9'> " +
+                   "<span class='fa fa-star star1'></span> " +
+                   "<span class='fa fa-star star2'></span> " +
+                   "<span class='fa fa-star star3'></span> " +
+                   "<span class='fa fa-star star4'></span> " +
+                   "<span class='fa fa-star star5'></span> " +                   
+                   "<div class='review-block-title'>" + reviewObj[i].ReviewTitle + "</div> " +
+                   "<div class='review-block-description'><strong>Pros - </strong>" + reviewObj[i].ReviewPros + "</div> " +
+                   "<div class='review-block-description'><strong>Cons - </strong>" + reviewObj[i].ReviewCons + "</div> " +
+                   "</div> " +
+                   "</div> " +
+                   "</div >";
+            }
+
+            $('#reviewContent').append(htmlString);
+
+            for (var i = 0; i < reviewObj.length; i++) {
+                for (var j = 0; j <= reviewObj[i].ReviewRating; j++) {
+                    $("#reviewno" + i + " " + ".star" + j).addClass('checked');                   
+                }
+            }            
+        }
+    });
+</script> 
+}
+
+

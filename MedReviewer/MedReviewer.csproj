@@ -443,15 +443,16 @@
     <Content Include="Content\font-awesome.css" />
     <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\background.jpg" />
+    <Content Include="Content\Images\com-1.jpg" />
+    <Content Include="Content\Images\com-2.jpg" />
+    <Content Include="Content\Images\com-3.jpg" />
+    <Content Include="Content\Images\com-4.jpg" />
     <Content Include="Content\Images\logosite.png" />
-    <Content Include="Content\Images\slide-1.jpg" />
-    <Content Include="Content\Images\slide-2.jpg" />
-    <Content Include="Content\Images\slide-3.jpg" />
+    <Content Include="Content\Images\med-1.jpg" />
+    <Content Include="Content\Images\med-2.jpg" />
+    <Content Include="Content\Images\med-3.jpg" />
+    <Content Include="Content\Images\see-1.jpg" />
     <Content Include="Content\Images\spinned.gif" />
-    <Content Include="Content\Images\thumb-3.jpg" />
-    <Content Include="Content\Images\thumb-4.jpg" />
-    <Content Include="Content\Images\thumb-5.jpg" />
-    <Content Include="Content\Images\thumb-6.jpg" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\toastr.css" />
     <Content Include="Content\toastr.min.css" />
@@ -635,6 +636,7 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Home\HomePage.cshtml" />
     <Content Include="Views\Review\FindYourMed.cshtml" />
+    <Content Include="Views\Review\SeeReview.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

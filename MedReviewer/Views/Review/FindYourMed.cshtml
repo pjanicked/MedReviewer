@@ -125,8 +125,10 @@
     $(document).ready(function () {  
         var addReviewUrl = '@Url.Action("AddReview", "Review")';
         var GetReviewUrl = '@Url.Action("GetReviews", "Review")';
+        var SeeReviewUrl = '@Url.Action("SeeReview", "Review")';
         var rating = 0;
         var userId = '@ViewBag.OktaUserID';
+        var selectedData = [];
 
         $('#Med, #MedInput').select2({
             theme: "classic",
@@ -144,15 +146,15 @@
                 },
                 description: {
                     required: true,
-                    maxlength: 30
+                    maxlength: 100
                 },
                 pros: {
                     required: true,
-                    maxlength: 200
+                    maxlength: 500
                 },
                 cons: {
                     required: true,
-                    maxlength: 200
+                    maxlength: 500
                 }
             },
             messages: {
@@ -161,15 +163,15 @@
                 },
                 description: {
                     required: 'Please enter title',
-                    maxlength: 'More than 30 characters not allowed'
+                    maxlength: 'More than 100 characters not allowed'
                 },
                 pros: {
                     required: 'Please enter pros',
-                    maxlength: 'More than 200 characters not allowed'
+                    maxlength: 'More than 500 characters not allowed'
                 },
                 cons: {
                     required: 'Please enter cons',
-                    maxlength: 'More than 200 characters not allowed'
+                    maxlength: 'More than 500 characters not allowed'
                 }
             }
         }); 
@@ -215,6 +217,14 @@
                     className: "btn btn-primary seereviewbtn disabled",
                     init: function (api, node, config) {
                         $(node).removeClass('dt-button');
+                    },
+                    action: function (e, dt, node, config) {
+                        if (selectedData != null && selectedData.length > 0) {
+                            window.location.href = SeeReviewUrl + '/' + selectedData[0].PillboxMedicineId;
+                        }
+                        else {
+                            toastr.error('No row selected');
+                        }
                     }
                 }
             ]
@@ -280,8 +290,13 @@
                 data: { medicineID: $('#Med').val() },
                 success: function (response) {
                     if (response != null) {
-                        dt_table.clear().draw();
-                        dt_table.rows.add(response).draw();
+                        if (response.length > 0) {
+                            dt_table.clear().draw();
+                            dt_table.rows.add(response).draw();
+                        }
+                        else {
+                            toastr.error('No reviews present for selected medicine!')
+                        }
                     }
                     else {
                         toastr.error('Error in getting reviews!');
@@ -298,10 +313,12 @@
             if ($(this).hasClass('selected')) {
                 $(this).removeClass('selected');
                 $('.seereviewbtn').attr('disabled', true);
+                selectedData = [];
             }
             else {               
                 $(this).addClass('selected');
                 $('.seereviewbtn').attr('disabled', false);
+                selectedData = dt_table.rows('.selected').data().toArray()
             }            
         });
     });

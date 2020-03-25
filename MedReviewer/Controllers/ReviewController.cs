@@ -32,6 +32,13 @@ namespace MedReviewer.Controllers
         }
 
         [HttpGet]
+        [Route("/Review/SeeReview")]
+        public ActionResult SeeReview(string medicineId)
+        {
+            return View();
+        }
+
+        [HttpGet]
         public ActionResult TestData()
         {
             return Json(new
@@ -59,12 +66,27 @@ namespace MedReviewer.Controllers
             }
         }
 
+        [HttpPost]
         public ActionResult GetReviews(int? medicineID)
         {
             try
             {
                 var result = _reviewOperation.GetReviews(medicineID);
-                return Json(result, JsonRequestBehavior.AllowGet);
+                return Json(result, JsonRequestBehavior.DenyGet);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPost]
+        public ActionResult GetAllReviewsByMedicineID(int medicineId)
+        {
+            try
+            {
+                var result = HelperClass.classToJson(_reviewOperation.GetAllReviewsByMedicineID(medicineId));
+                return Json(result, JsonRequestBehavior.DenyGet);
             }
             catch (Exception)
             {
